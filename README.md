@@ -1,42 +1,54 @@
-# IDconvert 工具
 
-## 简介
+# Tools 项目总览
 
-**IDconvert** 是一个基于 Python 的图形界面小工具，用于将 GTF 注释文件中的 `gene_id` 映射为 `gene_name`，并自动为原始 TSV 文件添加 `gene_name` 列，生成新的结果文件。适用于基因ID批量转换等生信分析场景。
+本仓库包含多个生信与 AI 工具，核心模块如下：
 
-## 功能特色
+---
 
-- 支持 GTF 注释文件与 TSV 原始文件的 ID 转换
-- 自动生成带 `gene_name` 列的新 TSV 文件
-- 简洁美观的图形界面，操作简单
-- 转换过程带进度条与友好提示
-- 支持 Windows 下一键打包为 exe 可执行文件
+## arXiv_llm_digest
 
-## 使用方法
+> 自动抓取 arXiv 上最新 LLM 相关论文，利用大模型（如 OpenAI GPT）分析摘要与新颖度，生成每日结构化报告。
 
-1. **安装依赖**
+**主要特性：**
+- 一键检索 LLM 相关论文（可按日期/数量筛选）
+- LLM 自动分析摘要与新颖性，输出精炼结论
+- 结果以 Markdown 格式每日归档，便于查阅
+- 提供美观易用的 PySide6 图形界面
 
-   ```bash
-   pip install tk
-   ```
+**依赖安装：**
+```bash
+pip install -r arxiv_llm_digest/requirements.txt
+```
 
-2. **运行工具**
+**命令行用法：**
+```bash
+python arxiv_llm_digest/arxiv_digest.py
+```
+**图形界面启动：**
+```bash
+python arxiv_llm_digest/gui.py
+```
 
-   ```bash
-   python IDconvert/main.py
-   ```
+**结果输出：**
+每日分析结果保存在 `arxiv_llm_digest/result/`，文件名如 `digest_YYYY-MM-DD.md`。
 
-3. **操作流程**
+---
 
-   - 打开工具后，点击"选择"按钮，依次选择 GTF 注释文件和 TSV 原始文件。
-   - 工具会自动生成输出文件名（在原始文件名后加 `_gene_name`）。
-   - 点击"开始转换"，等待进度条完成，弹窗提示"转换完成！"并显示新文件名。
+## IDconvert
 
-4. **输出说明**
+> GTF 注释文件与 TSV 文件的基因 ID 批量转换工具，自动添加 gene_name 列，适合生信分析。
 
-   - 新文件会与原始 TSV 文件在同一目录下，文件名为 `原始文件名_gene_name.tsv`。
+**快速使用：**
+```bash
+pip install tk
+python IDconvert/main.py
+```
 
-## 打包为可执行文件（可选）
+---
+
+## DNAtranslate
+
+> DNA 序列翻译与相关小工具（详见 DNAtranslate/ 目录）。
 
 如需在无 Python 环境下运行，可用 PyInstaller 打包：
 
