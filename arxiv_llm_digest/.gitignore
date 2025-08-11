@@ -1,4 +1,3 @@
 __pycache__
-*.dist
-*.build
-*.arxiv_digest_md
+dist/
+build/
