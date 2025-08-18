@@ -1,4 +1,4 @@
-arxiv
+habanero
 openai
 python-dotenv
 PySide6

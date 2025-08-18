@@ -21,7 +21,7 @@ from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
 from PySide6.QtGui import QIntValidator
 from PySide6.QtCore import Qt, QThread, Signal as pyqtSignal, QTimer, QPropertyAnimation, QEasingCurve
 from PySide6.QtGui import QFont, QPalette, QColor
-import arxiv_digest
+import bio_ai_paper_analyzer
 
 class ApiTestWorker(QThread):
     finished = pyqtSignal(str)
@@ -49,7 +49,7 @@ class ApiTestWorker(QThread):
         except Exception as e:
             self.error.emit(f"API connection test failed: {str(e)}")
 
-class ArxivWorker(QThread):
+class CrossrefWorker(QThread):
     progress = pyqtSignal(str)
     progress_value = pyqtSignal(int)
     finished = pyqtSignal(str)
@@ -104,11 +104,11 @@ class ArxivWorker(QThread):
                 '--lang', self.params['lang'],
                 '--days', str(self.params['days']),
                 '--max-results', str(self.params['max_results']),
-                '--category', self.params['category']
+                '--query', self.params['query']
             ]
             
             # Run main program
-            arxiv_digest.main(self.progress_callback)
+            bio_ai_paper_analyzer.main(self.progress_callback)
             
             # Read generated file
             report_date = datetime.now().strftime("%Y-%m-%d")
@@ -120,7 +120,7 @@ class ArxivWorker(QThread):
                 
                 # Check if no papers found
                 if "今日未发现新论文" in content or "No new papers found" in content:
-                    content = "❌ 未搜索到相关文章\n\n请尝试：\n1. 调整搜索分类\n2. 增加搜索天数\n3. 检查网络连接"
+                    content = "❌ 未搜索到相关文章\n\n请尝试：\n1. 调整搜索关键词\n2. 增加搜索天数\n3. 检查网络连接"
                 
                 self.progress.emit("\n✨ Processing complete!")
                 self.progress_value.emit(100)
@@ -134,7 +134,7 @@ class ArxivWorker(QThread):
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("ArXiv LLM 论文摘要生成器 v2.0")
+        self.setWindowTitle("Crossref 研究论文摘要生成器 v2.0")
         self.setMinimumSize(900, 700)
         self.setStyleSheet(self.get_stylesheet())
         
@@ -148,7 +148,7 @@ class MainWindow(QMainWindow):
         layout.setContentsMargins(20, 20, 20, 20)
         
         # 创建标题
-        title_label = QLabel("🚀 ArXiv LLM 论文摘要生成器")
+        title_label = QLabel("🚀 Crossref 研究论文摘要生成器")
         title_label.setObjectName("title")
         title_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(title_label)
@@ -165,23 +165,13 @@ class MainWindow(QMainWindow):
         self.model_combo = QComboBox()
         self.model_combo.setObjectName("combo")
         models = [
-            "Qwen/Qwen3-30B-A3B-Instruct-2507", "Qwen/Qwen3-235B-A22B-Thinking-2507", 
-            "Qwen/Qwen3-235B-A22B-Instruct-2507", "baidu/ERNIE-4.5-300B-A47B", 
-            "moonshotai/Kimi-K2-Instruct", "ascend-tribe/pangu-pro-moe", 
-            "tencent/Hunyuan-A13B-Instruct", "MiniMaxAI/MiniMax-M1-80k", 
-            "Tongyi-Zhiwen/QwenLong-L1-32B", "Qwen/Qwen3-30B-A3B", "Qwen/Qwen3-32B", 
-            "Qwen/Qwen3-14B", "Qwen/Qwen3-8B", "Qwen/Qwen3-235B-A22B", 
-            "THUDM/GLM-Z1-32B-0414", "THUDM/GLM-4-32B-0414", "THUDM/GLM-Z1-Rumination-32B-0414", 
-            "THUDM/GLM-4-9B-0414", "Qwen/QwQ-32B", "Pro/deepseek-ai/DeepSeek-R1", 
-            "Pro/deepseek-ai/DeepSeek-V3", "deepseek-ai/DeepSeek-R1", "deepseek-ai/DeepSeek-V3", 
-            "deepseek-ai/DeepSeek-R1-0528-Qwen3-8B", "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B", 
-            "deepseek-ai/DeepSeek-R1-Distill-Qwen-14B", "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B", 
-            "Pro/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B", "deepseek-ai/DeepSeek-V2.5", 
-            "Qwen/Qwen2.5-72B-Instruct-128K", "Qwen/Qwen2.5-72B-Instruct", "Qwen/Qwen2.5-32B-Instruct", 
-            "Qwen/Qwen2.5-14B-Instruct", "Qwen/Qwen2.5-7B-Instruct", "Qwen/Qwen2.5-Coder-32B-Instruct", 
-            "Qwen/Qwen2.5-Coder-7B-Instruct", "Qwen/Qwen2-7B-Instruct", "TeleAI/TeleChat2", 
-            "THUDM/glm-4-9b-chat", "Vendor-A/Qwen/Qwen2.5-72B-Instruct", "internlm/internlm2_5-7b-chat", 
-            "Pro/Qwen/Qwen2.5-7B-Instruct", "Pro/Qwen/Qwen2-7B-Instruct", "Pro/THUDM/glm-4-9b-chat"
+            "Qwen/Qwen3-235B-A22B-Thinking-2507", 
+            "Qwen/Qwen3-235B-A22B-Instruct-2507", 
+            "Tongyi-Zhiwen/QwenLong-L1-32B", 
+            "Qwen/Qwen3-235B-A22B", 
+            "Qwen/QwQ-32B",
+            "deepseek-ai/DeepSeek-R1", 
+            "deepseek-ai/DeepSeek-V3"
         ]
         self.model_combo.addItems(models)
         model_layout.addWidget(model_label)
@@ -201,46 +191,26 @@ class MainWindow(QMainWindow):
         api_layout.addWidget(self.api_input)
         settings_layout.addLayout(api_layout)
         
-        # ArXiv category selection
-        category_layout = QHBoxLayout()
-        category_label = QLabel("📚 ArXiv官方分类:")
-        category_label.setObjectName("label")
-        self.category_combo = QComboBox()
-        self.category_combo.setObjectName("combo")
-        categories = [
-            "q-bio.QM OR q-bio.BM OR cs.LG (推荐: 计算生物学)",
-            "cs.CL OR cs.AI OR cs.LG (LLM与AI)",
-            "q-bio.QM OR q-bio.BM OR q-bio.GN (生物信息学)",
-            "cs.AI OR cs.LG OR q-bio.QM (AI与计算生物)",
-            "q-bio.BM OR q-bio.SC OR q-bio.MN (分子生物学)",
-            "cs.CL OR q-bio.QM OR q-bio.NC (语言模型与神经)",
-            "stat.ML OR q-bio.QM OR cs.LG (统计与生物)",
-            "q-bio.PE OR q-bio.NC OR cs.AI (进化与神经)",
-            "q-bio.TO OR q-bio.CB OR cs.LG (组织与细胞)",
-            "cs.CV OR q-bio.QM OR q-bio.BM (图像与生物)",
-            "q-bio.QM (定量方法)",
-            "q-bio.BM (生物分子)",
-            "q-bio.GN (基因组学)",
-            "q-bio.MN (分子网络)",
-            "q-bio.NC (神经与认知)",
-            "q-bio.CB (细胞行为)",
-            "q-bio.PE (群体与进化)",
-            "q-bio.SC (亚细胞过程)",
-            "q-bio.TO (组织与器官)",
-            "q-bio.OT (其他定量生物)",
-            "cs.AI (人工智能)",
-            "cs.LG (机器学习)",
-            "cs.CL (计算语言学)",
-            "cs.CV (计算机视觉)",
-            "stat.ML (统计机器学习)",
-            "cs (所有计算机科学)",
-            "stat (统计学)"
-        ]
-        self.category_combo.addItems(categories)
-        category_layout.addWidget(category_label)
-        category_layout.addWidget(self.category_combo)
-        category_layout.addStretch()
-        settings_layout.addLayout(category_layout)
+        # 搜索关键词输入框（替换原来的分类选择）
+        search_layout = QHBoxLayout()
+        search_label = QLabel("🔍 搜索关键词:")
+        search_label.setObjectName("label")
+        self.search_input = QLineEdit()
+        self.search_input.setObjectName("input")
+        self.search_input.setPlaceholderText("输入搜索关键词，如：computational biology, bioinformatics, deep learning biology")
+        self.search_input.setText("computational biology deep learning")  # 默认值
+        search_layout.addWidget(search_label)
+        search_layout.addWidget(self.search_input)
+        settings_layout.addLayout(search_layout)
+        
+        # 添加搜索示例提示
+        search_help_layout = QHBoxLayout()
+        search_help_label = QLabel("💡 搜索示例: protein structure prediction, genomics deep learning, bioinformatics AI, medical image analysis, drug discovery machine learning")
+        search_help_label.setObjectName("helpLabel")
+        search_help_label.setStyleSheet("color: #7f8c8d; font-size: 10px; font-style: italic;")
+        search_help_layout.addWidget(search_help_label)
+        search_help_layout.addStretch()
+        settings_layout.addLayout(search_help_layout)
         
         # 语言选择
         lang_layout = QHBoxLayout()
@@ -254,7 +224,7 @@ class MainWindow(QMainWindow):
         lang_layout.addStretch()
         settings_layout.addLayout(lang_layout)
         
-        # 天数和最大结果数设置（改为QLineEdit并限制只能输入数字）
+        # 天数和最大结果数设置
         params_layout = QHBoxLayout()
         days_label = QLabel("📅 搜索天数:")
         days_label.setObjectName("label")
@@ -275,7 +245,7 @@ class MainWindow(QMainWindow):
         self.max_results_input.setValidator(QIntValidator(1, 1000, self))
 
         # 添加说明标签
-        help_label = QLabel("💡 提示: 天数设为0可搜索任意时期的论文")
+        help_label = QLabel("💡 提示: 天数设为0可搜索任意时期的论文，Crossref数据库包含全球学术期刊文章")
         help_label.setObjectName("helpLabel")
         help_label.setStyleSheet("color: #7f8c8d; font-size: 10px; font-style: italic;")
 
@@ -558,15 +528,14 @@ class MainWindow(QMainWindow):
             days = int(self.days_input.text())
             max_results = int(self.max_results_input.text())
         except Exception:
-            self.result_text.setText("Please enter valid days and article count (positive integers)")
+            self.result_text.setText("请输入有效的天数和文章数量（正整数）")
             return
             
-        # Get selected category
-        category_text = self.category_combo.currentText()
-        if "推荐: 计算生物学" in category_text:
-            category = "q-bio.QM OR q-bio.BM OR cs.LG"
-        else:
-            category = category_text.split(" (")[0]
+        # Get search query
+        search_query = self.search_input.text().strip()
+        if not search_query:
+            self.result_text.setText("请输入搜索关键词")
+            return
             
         params = {
             'provider': 'siliconflow',
@@ -575,12 +544,12 @@ class MainWindow(QMainWindow):
             'lang': self.lang_combo.currentText()[-3:-1],
             'days': days,
             'max_results': max_results,
-            'category': category
+            'query': search_query
         }
         
         # Validate API key
         if not params['api_key']:
-            self.result_text.setText("Please enter API key")
+            self.result_text.setText("请输入API密钥")
             return
             
         # Disable buttons
@@ -593,7 +562,7 @@ class MainWindow(QMainWindow):
         self.progress_label.setText("Starting generation...")
         
         # Create and start worker thread
-        self.worker = ArxivWorker(params)
+        self.worker = CrossrefWorker(params)
         self.worker.progress.connect(self.update_progress)
         self.worker.progress_value.connect(self.update_progress_bar)
         self.worker.finished.connect(self.generation_complete)
@@ -630,9 +599,9 @@ if __name__ == "__main__":
     app.setStyle('Fusion')
     
     # 设置应用程序图标和信息
-    app.setApplicationName("ArXiv LLM 论文摘要生成器")
+    app.setApplicationName("Crossref 研究论文摘要生成器")
     app.setApplicationVersion("2.0")
-    app.setOrganizationName("ArXiv Tools")
+    app.setOrganizationName("Research Tools")
     
     window = MainWindow()
     window.show()
