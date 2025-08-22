@@ -26,9 +26,6 @@ cd Franklin/dist
 Franklin.exe
 ```
 
-=======
->>>>>>> 19ea3f909ea1d2d3b39b1e37e1cb8217b555cb0c
----
 
 ## arXiv_llm_digest
 
