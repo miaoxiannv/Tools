@@ -3,6 +3,7 @@
 
 本仓库包含多个生信与 AI 工具，核心模块如下：
 
+<<<<<<< HEAD
 ## Franklin
 
 > 生物学论文智能分析系统 - 基于深度学习模型，帮助研究者快速筛选、分析和理解生物学相关论文。
@@ -26,6 +27,8 @@ cd Franklin/dist
 Franklin.exe
 ```
 
+=======
+>>>>>>> 19ea3f909ea1d2d3b39b1e37e1cb8217b555cb0c
 ---
 
 ## arXiv_llm_digest
