@@ -1,0 +1,30 @@
+# 构建输出目录
+dist/
+build/
+
+# Python缓存文件
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 环境配置
+.env
+.venv
+env/
+venv/
+
+# IDE配置文件
+.vscode/
+.idea/
+
+# 日志文件
+*.log
+
+# 本地配置文件
+config.local.json
+
+# 打包文件
+*.spec
+
+# 临时文件
+*.tmp

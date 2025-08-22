@@ -1,0 +1,10 @@
+habanero
+openai
+python-dotenv
+PySide6
+requests
+urllib3
+certifi
+charset-normalizer
+idna
+pyinstaller

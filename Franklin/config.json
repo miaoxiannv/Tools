@@ -1,0 +1,20 @@
+{
+    "models": {
+        "default": "deepseek-ai/DeepSeek-R1",
+        "available": [
+            "deepseek-ai/DeepSeek-R1",
+            "Qwen/Qwen3-235B-A22B-Thinking-2507"
+        ]
+    },
+    "api": {
+        "base_url": "https://api.siliconflow.cn/v1"
+    },
+    "ui": {
+        "window_size": "900x700",
+        "theme": {
+            "background": "#f0f0f0",
+            "primary": "#4a90e2",
+            "secondary": "#2c3e50"
+        }
+    }
+}
