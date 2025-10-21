@@ -15,6 +15,3 @@ venv/
 build/
 dist/
 *.spec
-
-# App outputs
-result/
