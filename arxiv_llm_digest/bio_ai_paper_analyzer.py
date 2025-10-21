@@ -10,7 +10,6 @@ from datetime import datetime, timedelta, timezone
 
 PROMPTS = {
     "en": {
-<<<<<<< HEAD
         "system_message": "You are an interdisciplinary research analysis expert, specializing in computational biology, bioinformatics, and the application of deep learning in biological sciences. You have profound professional knowledge in both biological systems and machine learning methodologies.",
         "template": """
 You are an interdisciplinary research analysis expert, specializing in computational biology, bioinformatics, and the application of deep learning in biological sciences. You have profound professional knowledge in both biological systems and machine learning methodologies. Your task is to analyze a paper from the perspective of the integration of biology and deep learning.
@@ -73,49 +72,11 @@ Finally, please provide the answer in JSON format:
     "biological_impact": <biological_impact_score> content,
     "technical_innovation": <technological_innovation_score> content
 }
-=======
-        "system_message": "You are an expert interdisciplinary research analyst specializing in computational biology, bioinformatics, and deep learning applications in biological sciences. You have deep expertise in both biological systems and machine learning methodologies.",
-        "template": """
-You are a senior interdisciplinary researcher with expertise in computational biology, bioinformatics, and deep learning applications in life sciences.
-
-**Paper Title:** {title}
-**Paper Abstract:** {abstract}
-
-**Analysis Framework:**
-Please analyze this paper through the lens of biological and deep learning integration. Consider:
-
-**Biological Context:**
-- Biological systems, processes, or phenomena addressed
-- Clinical/medical relevance and translational potential
-- Biological data types (genomics, proteomics, imaging, etc.)
-- Experimental validation and biological significance
-
-**Deep Learning/AI Methodology:**
-- Novel architectures, algorithms, or computational approaches
-- Data representation and feature engineering innovations
-- Model interpretability and biological insight generation
-- Scalability and computational efficiency
-
-**Interdisciplinary Impact:**
-- Cross-domain knowledge transfer and methodological innovation
-- Potential to advance both biological understanding and AI capabilities
-- Reproducibility and generalizability across biological systems
-
-**Tasks:**
-1. **Summarize the core contribution** focusing on the intersection of biology and deep learning
-2. **Rate novelty** (1-5): 1=Incremental improvement, 3=Significant advance, 5=Paradigm-shifting breakthrough
-3. **Assess biological impact** (1-5): Potential to advance biological knowledge or clinical applications
-4. **Evaluate technical innovation** (1-5): Novel computational/AI methodological contributions
-
-Provide response in JSON format:
-{{"contribution": "...", "novelty": ..., "biological_impact": ..., "technical_innovation": ...}}
->>>>>>> 19ea3f909ea1d2d3b39b1e37e1cb8217b555cb0c
 """
     },
     "zh": {
         "system_message": "你是一位跨学科研究分析专家，专精于计算生物学、生物信息学以及深度学习在生物科学中的应用。你在生物系统和机器学习方法论方面都有深厚的专业知识。",
         "template": """
-<<<<<<< HEAD
 你是一位跨学科研究分析专家，专精于计算生物学、生物信息学以及深度学习在生物科学中的应用。你在生物系统和机器学习方法论方面都有深厚的专业知识。你的任务是从生物学与深度学习融合的角度分析一篇论文。
 
 以下是论文标题：
@@ -176,41 +137,6 @@ Provide response in JSON format:
     "biological_impact": <生物学影响评分>中的内容,
     "technical_innovation": <技术创新评分>中的内容
 }
-=======
-你是一位资深的跨学科研究员，在计算生物学、生物信息学以及深度学习在生命科学中的应用方面具有专业知识。
-
-**论文标题:** {title}
-**论文摘要:** {abstract}
-
-**分析框架:**
-请从生物学与深度学习融合的角度分析这篇论文。考虑以下方面：
-
-**生物学背景:**
-- 涉及的生物系统、过程或现象
-- 临床/医学相关性和转化潜力
-- 生物数据类型（基因组学、蛋白质组学、成像等）
-- 实验验证和生物学意义
-
-**深度学习/AI方法论:**
-- 新颖的架构、算法或计算方法
-- 数据表示和特征工程创新
-- 模型可解释性和生物学洞察生成
-- 可扩展性和计算效率
-
-**跨学科影响:**
-- 跨领域知识转移和方法论创新
-- 推进生物学理解和AI能力的潜力
-- 在生物系统中的可重现性和泛化能力
-
-**任务:**
-1. **总结核心贡献**: 重点关注生物学与深度学习的交叉点
-2. **评定新颖性** (1-5): 1=渐进式改进, 3=重要进展, 5=范式转换突破
-3. **评估生物学影响** (1-5): 推进生物学知识或临床应用的潜力
-4. **评价技术创新** (1-5): 新颖的计算/AI方法论贡献
-
-请以JSON格式提供回答：
-{{"contribution": "...", "novelty": ..., "biological_impact": ..., "technical_innovation": ...}}
->>>>>>> 19ea3f909ea1d2d3b39b1e37e1cb8217b555cb0c
 """
     }
 }
@@ -227,19 +153,12 @@ REPORT_TEMPLATES = {
         "url": "- **URL**: {url}",
         "keywords": "- **Keywords**: {keywords}",
         "novelty_score": "- **Novelty Score**: `{novelty}/5`",
-<<<<<<< HEAD
         "biological_impact_score": "- **Biological Impact**: `{biological_impact}/5`",
         "technical_innovation_score": "- **Technical Innovation**: `{technical_innovation}/5`",
         "contribution": "- **Core Contribution**: {contribution}",
         "abstract": "**Abstract**: *{abstract}*",
         "other_papers": "---\n\n## 📚 Other Papers Today",
         "other_paper_info": "- **Journal**: `{journal}` | **Year**: `{year}` | **Scores**: Novelty: `{novelty}/5` | Bio-Impact: `{biological_impact}/5` | Tech-Innovation: `{technical_innovation}/5`",
-=======
-        "contribution": "- **Contribution**: {contribution}",
-        "abstract": "**Abstract**: *{abstract}*",
-        "other_papers": "---\n\n## 📚 Other Papers Today",
-        "other_paper_info": "- **Journal**: `{journal}` | **Year**: `{year}` | **Novelty**: `{novelty}/5`",
->>>>>>> 19ea3f909ea1d2d3b39b1e37e1cb8217b555cb0c
         "no_papers_found": "# Daily Crossref Research Digest\n\nNo new papers found today."
     },
     "zh": {
@@ -253,7 +172,6 @@ REPORT_TEMPLATES = {
         "url": "- **链接**: {url}",
         "keywords": "- **关键字**: {keywords}",
         "novelty_score": "- **新颖性评分**: `{novelty}/5`",
-<<<<<<< HEAD
         "biological_impact_score": "- **生物学影响**: `{biological_impact}/5`",
         "technical_innovation_score": "- **技术创新**: `{technical_innovation}/5`",
         "contribution": "- **核心贡献**: {contribution}",
@@ -262,14 +180,6 @@ REPORT_TEMPLATES = {
         "other_paper_info": "- **期刊**: `{journal}` | **年份**: `{year}` | **评分**: 新颖性: `{novelty}/5` | 生物影响: `{biological_impact}/5` | 技术创新: `{technical_innovation}/5`",
         "no_papers_found": "# Crossref 研究论文每日摘要\n\n今日未发现新论文.",
         "translation_template": "你的任务是将英文摘要翻译成简洁的学术中文。请仔细阅读以下英文摘要，并按照指示进行翻译。英文摘要:<english_abstract>{text}</english_abstract>在翻译时，请遵循以下指南:1. 译文需简洁明了，符合学术语言风格。2. 只返回翻译结果，不要包含任何说明或解释。请在<translation>标签内写下你的翻译。"
-=======
-        "contribution": "- **核心贡献**: {contribution}",
-        "abstract": "**摘要**: *{abstract}*",
-        "other_papers": "---\n\n## 📚 今日其他论文",
-        "other_paper_info": "- **期刊**: `{journal}` | **年份**: `{year}` | **新颖性**: `{novelty}/5`",
-        "no_papers_found": "# Crossref 研究论文每日摘要\n\n今日未发现新论文.",
-        "translation_template": "请将以下英文摘要翻译成简洁的学术中文，只返回翻译结果，不要包含任何说明或解释：\n\n{text}"
->>>>>>> 19ea3f909ea1d2d3b39b1e37e1cb8217b555cb0c
     }
 }
 
